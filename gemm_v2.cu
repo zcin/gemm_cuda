@@ -11,7 +11,7 @@
 
 __global__ void gemm_kernel(const float *A, const float *B, float *C, int M, int K, int N, float alpha, float beta) {
     int r = blockIdx.x * blockDim.x + (threadIdx.x / 32);
-    int c = blockIdx.y * blockDim.y + (threadIdx.y % 32);
+    int c = blockIdx.y * blockDim.y + (threadIdx.x % 32);
 
     if (r < M && c < N) {
         float acc = 0.0f;
