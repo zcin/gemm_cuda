@@ -23,11 +23,11 @@ __global__ void gemm_kernel(const float *A, const float *B, float *C, int M, int
 }
 
 int main() {
-    int M = 4092, K = 4092, N = 4092;
+    int M = 4096, K = 4096, N = 4096;
     float alpha = 1.5, beta = 2.5;
 
     float *A = new float[M*K], *B = new float[K*N], *C = new float[M*N];
-    for (int i = 0; i < 4092 * 4092; i++) {
+    for (int i = 0; i < 4096 * 4096; i++) {
         A[i] = static_cast<float>(i) / (M*K);
         B[i] = static_cast<float>(i) / (K*N);
         C[i] = static_cast<float>(i) / (M*N);

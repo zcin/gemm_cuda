@@ -10,8 +10,8 @@
 #define CEIL_DIV(x,y) (x+y-1)/(y)
 
 __global__ void gemm_kernel(const float *A, const float *B, float *C, int M, int K, int N, float alpha, float beta) {
-    int r = blockIdx.x * blockDim.x + threadIdx.x;
-    int c = blockIdx.y * blockDim.y + threadIdx.y;
+    int r = blockIdx.y * blockDim.y + threadIdx.y;
+    int c = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (r < M && c < N) {
         float acc = 0.0f;
