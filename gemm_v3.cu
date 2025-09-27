@@ -6,23 +6,54 @@
 #include <float.h>
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 
 #define CEIL_DIV(x,y) (x+y-1)/(y)
+#define TILE_SIZE 32
 
+// Assume M,K,N are multiplies of block size
 __global__ void gemm_kernel(const float *A, const float *B, float *C, int M, int K, int N, float alpha, float beta) {
-    int r = blockIdx.y * blockDim.y + threadIdx.y;
-    int c = blockIdx.x * blockDim.x + threadIdx.x;
+    __shared__ float A_sh[TILE_SIZE * TILE_SIZE];
+    __shared__ float B_sh[TILE_SIZE * TILE_SIZE];
+    A += blockIdx.y * TILE_SIZE * K;
+    B += blockIdx.x * TILE_SIZE;
+    C += blockIdx.y * TILE_SIZE * N + blockIdx.x * TILE_SIZE;
 
-    if (r < M && c < N) {
-        float acc = 0.0f;
-        for (int k = 0; k < K; k++) {
-            acc += A[r * K + k] * B[k * N + c];
+    float acc = 0.0f;
+    for (int kBlk = 0; kBlk < K; kBlk += TILE_SIZE) {
+        A_sh[threadIdx.y * TILE_SIZE + threadIdx.x] = A[threadIdx.y * K + threadIdx.x];
+        B_sh[threadIdx.y * TILE_SIZE + threadIdx.x] = B[threadIdx.y * N + threadIdx.x];
+        __syncthreads();
+
+        for (int k = 0; k < TILE_SIZE; k++) {
+            acc += A_sh[threadIdx.y * TILE_SIZE + k] * B_sh[k * TILE_SIZE + threadIdx.x];
         }
-        C[r * N + c] = alpha * acc + beta * C[r * N + c];
+
+        // Move A to the right by TILE_SIZE
+        A += TILE_SIZE;
+        // MOVE B down by TILE_SIZE
+        B += TILE_SIZE * N;
+
+        __syncthreads();
     }
+    C[threadIdx.y * N + threadIdx.x] = alpha * acc + beta * C[threadIdx.y * N + threadIdx.x];
 }
 
 int main() {
+    int device_id = 0;
+    cudaDeviceProp device_prop;
+    cudaGetDeviceProperties(&device_prop, device_id);
+    std::cout << "Total global memory: " << device_prop.totalGlobalMem / (1024 * 1024) << " MB" << std::endl;
+    std::cout << "Multiprocessor count: " << device_prop.multiProcessorCount << std::endl;
+    std::cout << "Shared memory per block: " << device_prop.sharedMemPerBlock << " KB" << std::endl;
+    std::cout << "Max threads per block: " << device_prop.maxThreadsPerBlock << std::endl;
+    std::cout << "Max threads dim: " << device_prop.maxThreadsDim[0] << ", " << device_prop.maxThreadsDim[1] << ", " << device_prop.maxThreadsDim[2] << std::endl;
+    std::cout << "Max grid size: " << device_prop.maxGridSize[0] << ", " << device_prop.maxGridSize[1] << ", " << device_prop.maxGridSize[2] << std::endl;
+    std::cout << "Warp size: " << device_prop.warpSize << std::endl;
+    std::cout << "Max threads per multiprocessor: " << device_prop.maxThreadsPerMultiProcessor << std::endl;
+    std::cout << "Shared memory per multiprocessor: " << device_prop.sharedMemPerMultiprocessor / (1024) << " KB" << std::endl;
+    std::cout << "Registers per multiprocessor: " << device_prop.regsPerMultiprocessor << std::endl;
+
     int M = 4096, K = 4096, N = 4096;
     float alpha = 1.5, beta = 2.5;
 
@@ -44,6 +75,8 @@ int main() {
     dim3 gridDim(CEIL_DIV(M, 32), CEIL_DIV(N, 32));
     dim3 blockDim(32, 32);
     gemm_kernel<<<gridDim, blockDim>>>(d_A, d_B, d_C, M, K, N, alpha, beta);
+    cudaMemcpy(C, d_C, M*N * sizeof(float), cudaMemcpyDeviceToHost);
+    assert(std::abs(C[100*N+100] - 75.543487) < 1e-6);
 
     free(A);
     free(B);

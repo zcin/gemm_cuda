@@ -1,38 +1,30 @@
-==PROF== Connected to process 7988 (/lambda/nfs/cindyzari/gemm_v4)                                                                                                                                                                    16:29:39 [134/49503]
-Device ID: 0
-Compute capability: 8.0
-Device name: NVIDIA A100-SXM4-40GB
-Total global memory: 40442 MB
-Total number of multiprocessors: 108
+Multiprocessor count: 108                                                                                                                                                                         22:17:24 [123/44180]
 Shared memory per block: 49152 KB
 Max threads per block: 1024
 Max threads dim: 1024, 1024, 64
 Max grid size: 2147483647, 65535, 65535
 Warp size: 32
 Max threads per multiprocessor: 2048
-Max shared memory per multiprocessor: 164 KB
-Max registers per multiprocessor: 65536
-==PROF== Profiling "gemm_kernel" - 0: 0%
-==WARNING== Launching the workload is taking more time than expected. If this continues to hang, terminate the profile and re-try by profiling the range of all related launches using '--replay-mode range'. See https://docs.nvidia.com/nsight-compute/P
-rofilingGuide/index.html#replay for more details.
-....50%....100% - 50 passes
-==PROF== Disconnected from process 7988
-[7988] gemm_v4@127.0.0.1
-  gemm_kernel(const float *, const float *, float *, int, int, int, float, float) (128, 128, 1)x(32, 32, 1), Context 1, Stream 7, Device 0, CC 8.0
+Shared memory per multiprocessor: 164 KB
+Registers per multiprocessor: 65536
+==PROF== Profiling "gemm_kernel" - 0: 0%....50%....100% - 50 passes
+==PROF== Disconnected from process 13230
+[13230] gemm_v4@127.0.0.1
+  gemm_kernel(const float *, const float *, float *, int, int, int, float, float) (64, 64, 1)x(512, 1, 1), Context 1, Stream 7, Device 0, CC 8.0
     Section: GPU Speed Of Light Throughput
     ----------------------- ----------- ------------
     Metric Name             Metric Unit Metric Value
     ----------------------- ----------- ------------
     DRAM Frequency                  Ghz         1.21
     SM Frequency                    Ghz         1.10
-    Elapsed Cycles                cycle     36796355
-    Memory Throughput                 %        89.38
-    DRAM Throughput                   %        17.02
-    Duration                         ms        33.20
-    L1/TEX Cache Throughput           %        89.71
-    L2 Cache Throughput               %        14.76
-    SM Active Cycles              cycle  36281411.63
-    Compute (SM) Throughput           %        75.16
+    Elapsed Cycles                cycle     18074104
+    Memory Throughput                 %        82.63
+    DRAM Throughput                   %        10.15
+    Duration                         ms        16.28
+    L1/TEX Cache Throughput           %        83.39
+    L2 Cache Throughput               %        14.36
+    SM Active Cycles              cycle  17698188.10
+    Compute (SM) Throughput           %        55.70
     ----------------------- ----------- ------------
 
     INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of the device.
@@ -40,7 +32,7 @@ rofilingGuide/index.html#replay for more details.
           Start by analyzing L1 in the Memory Workload Analysis section.
 
     Section: GPU Speed Of Light Roofline Chart
-    INF   The ratio of peak float (fp32) to double (fp64) performance on this device is 2:1. The workload achieved 27%
+    INF   The ratio of peak float (fp32) to double (fp64) performance on this device is 2:1. The workload achieved 56%
           of this device's fp32 peak performance and 0% of its fp64 peak performance. See the Kernel Profiling Guide
           (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#roofline) for more details on roofline
           analysis.
@@ -49,7 +41,7 @@ rofilingGuide/index.html#replay for more details.
     ------------------------- ----------- ------------
     Metric Name               Metric Unit Metric Value
     ------------------------- ----------- ------------
-    Maximum Buffer Size             Mbyte        25.17
+    Maximum Buffer Size             Mbyte        12.58
     Dropped Samples                sample            0
     Maximum Sampling Interval       cycle        20000
     # Pass Groups                                    4
@@ -59,48 +51,48 @@ rofilingGuide/index.html#replay for more details.
     -------------------- ----------- ------------
     Metric Name          Metric Unit Metric Value
     -------------------- ----------- ------------
-    Executed Ipc Active   inst/cycle         1.44
-    Executed Ipc Elapsed  inst/cycle         1.44
-    Issue Slots Busy               %        36.10
-    Issued Ipc Active     inst/cycle         1.44
-    SM Busy                        %        39.44
+    Executed Ipc Active   inst/cycle         1.85
+    Executed Ipc Elapsed  inst/cycle         1.83
+    Issue Slots Busy               %        46.16
+    Issued Ipc Active     inst/cycle         1.85
+    SM Busy                        %        56.22
     -------------------- ----------- ------------
 
-    INF   FMA is the highest-utilized pipeline (28.3%) based on active cycles, taking into account the rates of its
-          different instructions. It executes 32-bit floating point (FADD, FMUL, FMAD, ...) and integer (IMUL, IMAD)                                                                                                                   16:29:39 [65/49503]
+    INF   FMA is the highest-utilized pipeline (56.2%) based on active cycles, taking into account the rates of its
+          different instructions. It executes 32-bit floating point (FADD, FMUL, FMAD, ...) and integer (IMUL, IMAD)
           operations. It is well-utilized, but should not be a bottleneck.
-
+                                                                                                                                                                                                   22:17:24 [60/44180]
     Section: Memory Workload Analysis
     ---------------------------- ----------- ------------
     Metric Name                  Metric Unit Metric Value
     ---------------------------- ----------- ------------
-    Memory Throughput                Gbyte/s       264.64
-    Mem Busy                               %        89.38
-    Max Bandwidth                          %        85.38
-    L1/TEX Hit Rate                        %         0.41
+    Memory Throughput                Gbyte/s       157.79
+    Mem Busy                               %        82.63
+    Max Bandwidth                          %        73.09
+    L1/TEX Hit Rate                        %         1.04
     L2 Compression Success Rate            %            0
     L2 Compression Ratio                                0
     L2 Compression Input Sectors      sector            0
-    L2 Hit Rate                            %        49.83
-    Mem Pipes Busy                         %        75.16
+    L2 Hit Rate                            %        66.46
+    Mem Pipes Busy                         %        48.76
     ---------------------------- ----------- ------------
 
     Section: Scheduler Statistics
     ---------------------------- ----------- ------------
     Metric Name                  Metric Unit Metric Value
     ---------------------------- ----------- ------------
-    One or More Eligible                   %        36.10
-    Issued Warp Per Scheduler                        0.36
-    No Eligible                            %        63.90
-    Active Warps Per Scheduler          warp        15.94
-    Eligible Warps Per Scheduler        warp         2.70
+    One or More Eligible                   %        46.08
+    Issued Warp Per Scheduler                        0.46
+    No Eligible                            %        53.92
+    Active Warps Per Scheduler          warp         7.90
+    Eligible Warps Per Scheduler        warp         1.29
     ---------------------------- ----------- ------------
 
-    OPT   Est. Local Speedup: 10.62%
+    OPT   Est. Local Speedup: 17.37%
           Every scheduler is capable of issuing one instruction per cycle, but for this workload each scheduler only
-          issues an instruction every 2.8 cycles. This might leave hardware resources underutilized and may lead to
+          issues an instruction every 2.2 cycles. This might leave hardware resources underutilized and may lead to
           less optimal performance. Out of the maximum of 16 warps per scheduler, this workload allocates an average
-          of 15.94 active warps per scheduler, but only an average of 2.70 warps were eligible per cycle. Eligible
+          of 7.90 active warps per scheduler, but only an average of 1.29 warps were eligible per cycle. Eligible
           warps are the subset of active warps that are ready to issue their next instruction. Every cycle with no
           eligible warp results in no instruction being issued and the issue slot remains unused. To increase the
           number of eligible warps, avoid possible load imbalances due to highly different execution durations per
@@ -110,54 +102,41 @@ rofilingGuide/index.html#replay for more details.
     ---------------------------------------- ----------- ------------
     Metric Name                              Metric Unit Metric Value
     ---------------------------------------- ----------- ------------
-    Warp Cycles Per Issued Instruction             cycle        44.16
-    Warp Cycles Per Executed Instruction           cycle        44.16
+    Warp Cycles Per Issued Instruction             cycle        17.15
+    Warp Cycles Per Executed Instruction           cycle        17.15
     Avg. Active Threads Per Warp                                   32
-    Avg. Not Predicated Off Threads Per Warp                    31.99
+    Avg. Not Predicated Off Threads Per Warp                    32.00
     ---------------------------------------- ----------- ------------
-
-    OPT   Est. Speedup: 10.62%
-          On average, each warp of this workload spends 22.4 cycles being stalled waiting for the MIO (memory
-          input/output) instruction queue to be not full. This stall reason is high in cases of extreme utilization of
-          the MIO pipelines, which include special math instructions, dynamic branches, as well as shared memory
-          instructions. When caused by shared memory accesses, trying to use fewer but wider loads can reduce pipeline
-          pressure. This stall type represents about 50.7% of the total average of 44.2 cycles between issuing two
-          instructions.
-    ----- --------------------------------------------------------------------------------------------------------------
-    INF   Check the Warp Stall Sampling (All Samples) table for the top stall locations in your source based on
-          sampling data. The Kernel Profiling Guide
-          (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference) provides more details
-          on each stall reason.
 
     Section: Instruction Statistics
     ---------------------------------------- ----------- ------------
     Metric Name                              Metric Unit Metric Value
     ---------------------------------------- ----------- ------------
-    Avg. Executed Instructions Per Scheduler        inst  13098704.59
-    Executed Instructions                           inst   5658640384
-    Avg. Issued Instructions Per Scheduler          inst  13098843.60
-    Issued Instructions                             inst   5658700435
+    Avg. Executed Instructions Per Scheduler        inst   8169851.26
+    Executed Instructions                           inst   3529375744
+    Avg. Issued Instructions Per Scheduler          inst   8169966.24
+    Issued Instructions                             inst   3529425414
     ---------------------------------------- ----------- ------------
 
     Section: Launch Statistics
     -------------------------------- --------------- ---------------
     Metric Name                          Metric Unit    Metric Value
     -------------------------------- --------------- ---------------
-    Block Size                                                  1024
+    Block Size                                                   512
     Function Cache Configuration                     CachePreferNone
-    Grid Size                                                  16384
-    Registers Per Thread             register/thread              31
+    Grid Size                                                   4096
+    Registers Per Thread             register/thread              44
     Shared Memory Configuration Size           Kbyte           32.77
     Driver Shared Memory Per Block       Kbyte/block            1.02
     Dynamic Shared Memory Per Block       byte/block               0
-    Static Shared Memory Per Block       Kbyte/block            8.19
+    Static Shared Memory Per Block       Kbyte/block            4.10
     # SMs                                         SM             108
     Stack Size                                                  1024
-    Threads                                   thread        16777216
+    Threads                                   thread         2097152
     # TPCs                                                        54
     Enabled TPC IDs                                              all
     Uses Green Context                                             0
-    Waves Per SM                                               75.85
+    Waves Per SM                                               18.96
     -------------------------------- --------------- ---------------
 
     Section: Occupancy
@@ -166,28 +145,33 @@ rofilingGuide/index.html#replay for more details.
     ------------------------------- ----------- ------------
     Block Limit SM                        block           32
     Block Limit Registers                 block            2
-    Block Limit Shared Mem                block            3
-    Block Limit Warps                     block            2
-    Theoretical Active Warps per SM        warp           64
-    Theoretical Occupancy                     %          100
-    Achieved Occupancy                        %        99.63
-    Achieved Active Warps Per SM           warp        63.76
+    Block Limit Shared Mem                block            6
+    Block Limit Warps                     block            4
+    Theoretical Active Warps per SM        warp           32
+    Theoretical Occupancy                     %           50
+    Achieved Occupancy                        %        49.49
+    Achieved Active Warps Per SM           warp        31.67
     ------------------------------- ----------- ------------
+
+    OPT   Est. Speedup: 17.37%
+          The 8.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the
+          hardware maximum of 16. This kernel's theoretical occupancy (50.0%) is limited by the number of required
+          registers.
 
     Section: GPU and Memory Workload Distribution
     -------------------------- ----------- ------------
     Metric Name                Metric Unit Metric Value
     -------------------------- ----------- ------------
-    Average DRAM Active Cycles       cycle   6864393.60
-    Total DRAM Elapsed Cycles        cycle   1613562880
-    Average L1 Active Cycles         cycle  36281411.63
-    Total L1 Elapsed Cycles          cycle   3933014770
-    Average L2 Active Cycles         cycle  34828040.19
-    Total L2 Elapsed Cycles          cycle   2788478720
-    Average SM Active Cycles         cycle  36281411.63
-    Total SM Elapsed Cycles          cycle   3933014770
-    Average SMSP Active Cycles       cycle  36286937.45
-    Total SMSP Elapsed Cycles        cycle  15732059080
+    Average DRAM Active Cycles       cycle   2006769.60
+    Total DRAM Elapsed Cycles        cycle    791143936
+    Average L1 Active Cycles         cycle  17698188.10
+    Total L1 Elapsed Cycles          cycle   1929087834
+    Average L2 Active Cycles         cycle  17074861.54
+    Total L2 Elapsed Cycles          cycle   1367397040
+    Average SM Active Cycles         cycle  17698188.10
+    Total SM Elapsed Cycles          cycle   1929087834
+    Average SMSP Active Cycles       cycle  17731323.23
+    Total SMSP Elapsed Cycles        cycle   7716351336
     -------------------------- ----------- ------------
 
     Section: Source Counters
@@ -195,7 +179,7 @@ rofilingGuide/index.html#replay for more details.
     Metric Name               Metric Unit Metric Value
     ------------------------- ----------- ------------
     Branch Instructions Ratio           %         0.01
-    Branch Instructions              inst     68157440
+    Branch Instructions              inst     33685504
     Branch Efficiency                   %          100
     Avg. Divergent Branches                          0
     ------------------------- ----------- ------------
