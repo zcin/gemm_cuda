@@ -1,3 +1,6 @@
+# GEMM optimizations
+
+Following https://siboehm.com/articles/22/CUDA-MMM.
 
 4092 x 4092 x 4092
 | | cycles | time (ms) | compute throughput | memory throughput |
